@@ -65,11 +65,7 @@ function checkAnswer (currentlevel) {
         if (userClickedPattern.length === gamePattern.length) {
             setTimeout (nextSequence,1000);
 
-            for (i = 0; i <= gamePattern.length; i++) {             
-                $("#"+ gamePattern[i]).fadeOut(100).fadeIn(100);    
-                
-                 
-            }
+
             
         }
     } else {
