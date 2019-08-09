@@ -16,14 +16,11 @@ $(document).keypress(function () {
     }
 });
 
-document.querySelector("h1").addEventListener("click", function () {
-    document.querySelector("h1").innerHTML = "Done!";
-});
-
-
 //difine the game sequence and play the appropriate sound
 function nextSequence() {
+    userClickedPattern = [];
     level++;
+    $("#level-title").text(`Level ${level}`);
     var randomNumber = Math.floor( Math.random() * 4);
     // return randomNumber;
     var randomChosenColour = buttonColours[randomNumber];
@@ -37,9 +34,7 @@ function nextSequence() {
 $(".btn").on("click", function () {
     var userChosenColour = this.id;
     userClickedPattern.push(userChosenColour);
-
     checkAnswer(userClickedPattern.length - 1);
-
     playSound(userChosenColour);
     animatePress(userChosenColour);
 
@@ -50,7 +45,6 @@ function playSound (name) {
 
     var sound  = new Audio("sounds/" + name + ".mp3");
     sound.play();
-
 }
 
 function animatePress(currentColour) {
@@ -64,30 +58,35 @@ function animatePress(currentColour) {
 } 
 
 function checkAnswer (currentlevel) {
-    //comparing the last index of the two array
-    // if (userClickedPattern[currentlevel] === gamePattern[gamePattern.length - 1]) {
-    //     console.log("success");
-    // } else {
-    //     console.log("wrong");
-    // }
-
-    var a = false;
-
-    for (i = 0; i < userClickedPattern.length; i++) {
-        if (userClickedPattern[i] !== gamePattern[i]) {      
-            a = true;
-        } 
-        
-    }   
-
-    if (a === false) {
-        setTimeout(nextSequence, 1000);
+    // comparing the last index of the two array
+    if (userClickedPattern[currentlevel] === gamePattern[currentlevel]) {
         console.log("success");
+        if (userClickedPattern.length === gamePattern.length) {
+            setTimeout (nextSequence,1000);
+
+
+            
+        }
     } else {
         console.log("wrong");
+        const wrong = new Audio("sounds/wrong.mp3");
+        wrong.play();
+        $("body").addClass("game-over"); //adding flash effect if the user get wrong
+        setTimeout( function () { $("body").removeClass("game-over");}, 250);
+
+        $("h1").text(`Game Over at level ${level}, Press Any Key to Restart`);    
+
+        startOver();
+
     }
 
     console.log(userClickedPattern);
     console.log(gamePattern);
 }
 
+
+function startOver() {
+    gamePattern = [];
+    level = 0;
+    start = false;
+}
