@@ -1,3 +1,6 @@
+//jshint esversion:6
+
+
 var userClickedPattern = [];
 var gamePattern = [];
 var buttonColours = ["red", "blue", "green", "yellow"];
@@ -12,8 +15,7 @@ $(document).keypress(function () {
         start = true;
 
     }
-})
-
+});
 
 //difine the game sequence and play the appropriate sound
 function nextSequence() {
@@ -37,7 +39,7 @@ $(".btn").on("click", function () {
     playSound(userChosenColour);
     animatePress(userChosenColour);
 
-})
+});
 
 
 function playSound (name) {
@@ -52,7 +54,7 @@ function animatePress(currentColour) {
 
     setTimeout( function () {
         $("#" + currentColour).removeClass("pressed", 100);
-    })
+    });
 
 } 
 
@@ -61,14 +63,21 @@ function checkAnswer (currentlevel) {
     if (userClickedPattern[currentlevel] === gamePattern[currentlevel]) {
         console.log("success");
         if (userClickedPattern.length === gamePattern.length) {
-            setTimeout (nextSequence, 1000);
+            setTimeout (nextSequence,1000);
+
+            for (i = 0; i <= gamePattern.length; i++) {             
+                $("#"+ gamePattern[i]).fadeOut(100).fadeIn(100);    
+                
+                 
+            }
+            
         }
     } else {
         console.log("wrong");
         const wrong = new Audio("sounds/wrong.mp3");
         wrong.play();
         $("body").addClass("game-over"); //adding flash effect if the user get wrong
-        setTimeout( function () { $("body").removeClass("game-over")}, 250);
+        setTimeout( function () { $("body").removeClass("game-over");}, 250);
 
         $("h1").text(`Game Over at level ${level}, Press Any Key to Restart`);    
 
@@ -79,6 +88,7 @@ function checkAnswer (currentlevel) {
     console.log(userClickedPattern);
     console.log(gamePattern);
 }
+
 
 function startOver() {
     gamePattern = [];
