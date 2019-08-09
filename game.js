@@ -1,3 +1,5 @@
+//jshint esversion:6
+
 var userClickedPattern = [];
 var gamePattern = [];
 var buttonColours = ["red", "blue", "green", "yellow"];
@@ -12,7 +14,11 @@ $(document).keypress(function () {
         start = true;
 
     }
-})
+});
+
+document.querySelector("h1").addEventListener("click", function () {
+    document.querySelector("h1").innerHTML = "Done!";
+});
 
 
 //difine the game sequence and play the appropriate sound
@@ -37,7 +43,7 @@ $(".btn").on("click", function () {
     playSound(userChosenColour);
     animatePress(userChosenColour);
 
-})
+});
 
 
 function playSound (name) {
@@ -53,7 +59,7 @@ function animatePress(currentColour) {
 
     setTimeout( function () {
         $("#" + currentColour).removeClass("pressed", 100);
-    })
+    });
 
 } 
 
